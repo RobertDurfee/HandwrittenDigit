@@ -72,10 +72,10 @@ char * ReadLabels(string labelsRawFileDirectory)
 
 int main()
 {
-	char * trainingDigits = ReadDigits("C:\\Users\\rober\\Documents\\Visual Studio Default Workspace\\Sandbox\\Sandbox\\TrainingDigits.undf");
-	char * trainingLabels = ReadLabels("C:\\Users\\rober\\Documents\\Visual Studio Default Workspace\\Sandbox\\Sandbox\\TrainingLabels.undf"); 
-	char * testDigits = ReadDigits("C:\\Users\\rober\\Documents\\Visual Studio Default Workspace\\Sandbox\\Sandbox\\TestDigits.undf"); 
-	char * testLabels = ReadLabels("C:\\Users\\rober\\Documents\\Visual Studio Default Workspace\\Sandbox\\Sandbox\\TestLabels.undf");
+	char * trainingDigits = ReadDigits("train-images-idx3-ubyte");
+	char * trainingLabels = ReadLabels("train-labels-idx1-ubyte"); 
+	char * testDigits = ReadDigits("t10k-images-idx3-ubyte"); 
+	char * testLabels = ReadLabels("t10k-labels-idx1-ubyte");
 
 
 	for (int i = 0; i < 60000 /*Number of training digits*/; i++)
@@ -106,4 +106,4 @@ int main()
 	free(testLabels);
 }
 ```
-This example uses the `HandwrittenDigit` class to read the data enclosed in the raw MNIST files. Once this data is read, the images are saved individually as bitmaps.
+This example uses the `HandwrittenDigit` class to read the data enclosed in the raw MNIST files. Once this data is read, the images are saved individually as bitmaps. For your convenience, these raw MNIST data files are included.
