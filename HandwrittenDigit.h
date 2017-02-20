@@ -1,8 +1,9 @@
 #ifndef HANDWRITTEN_DIGIT_HEADER
 #define HANDWRITTEN_DIGIT_HEADER
 
-#include <armadillo>
 #include "Bitmap.h"
+#include "ArtificialNeuralNetwork.h"
+#include <armadillo>
 
 using namespace arma;
 
@@ -11,22 +12,22 @@ class HandwrittenDigit
 public:
 	HandwrittenDigit(char * imageBitmapFile);
 	HandwrittenDigit(unsigned char * pixelsValue);
-	HandwrittenDigit(Col<double> pixelsPercentage);
+	HandwrittenDigit(NeuralInput pixelsPercentage);
 
-	Col<double> GetPixelsPercentage();
+	NeuralInput GetPixelsPercentage();
 	char * GetPixelsValue();
 
 	void Save(char * filename);
-	void Read(char * filename);
+	void Open(char * filename);
 
 private:
-	Col<double> pixels;
+	NeuralInput pixels;
 
 };
 
 HandwrittenDigit::HandwrittenDigit(char * imageBitmapFile)
 {
-	Read(imageBitmapFile);
+	Open(imageBitmapFile);
 }
 HandwrittenDigit::HandwrittenDigit(unsigned char * pixelsValue)
 {
@@ -34,14 +35,14 @@ HandwrittenDigit::HandwrittenDigit(unsigned char * pixelsValue)
 	for (int i = 0; i < 28 /*Pixel Width*/ * 28 /*Pixel Height*/; i++)
 		pixels[i] = (double)(pixelsValue[i]) / (double)256;
 }
-HandwrittenDigit::HandwrittenDigit(Col<double> pixelsPercentage)
+HandwrittenDigit::HandwrittenDigit(NeuralInput pixelsPercentage)
 {
 	pixels.set_size(28 /*Pixel Width*/ * 28 /*Pixel Height*/);
 	for (int i = 0; i < 28 /*Pixel Width*/ * 28 /*Pixel Height*/; i++)
 		pixels[i] = pixelsPercentage[i];
 }
 
-Col<double> HandwrittenDigit::GetPixelsPercentage()
+NeuralInput HandwrittenDigit::GetPixelsPercentage()
 {
 	return pixels;
 }
@@ -55,7 +56,7 @@ char * HandwrittenDigit::GetPixelsValue()
 	return output;
 }
 
-void HandwrittenDigit::Read(char * imageBitmapFile)
+void HandwrittenDigit::Open(char * imageBitmapFile)
 {
 	pixels.set_size(28 /*Pixel Width*/ * 28 /*Pixel Height*/);
 
