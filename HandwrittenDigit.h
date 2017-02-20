@@ -3,7 +3,6 @@
 
 #include "Bitmap.h"
 #include "ArtificialNeuralNetwork.h"
-#include <armadillo>
 
 using namespace arma;
 
@@ -15,7 +14,7 @@ public:
 	HandwrittenDigit(NeuralInput pixelsPercentage);
 
 	NeuralInput GetPixelsPercentage();
-	char * GetPixelsValue();
+	unsigned char * GetPixelsValue();
 
 	void Save(char * filename);
 	void Open(char * filename);
@@ -46,9 +45,9 @@ NeuralInput HandwrittenDigit::GetPixelsPercentage()
 {
 	return pixels;
 }
-char * HandwrittenDigit::GetPixelsValue()
+unsigned char * HandwrittenDigit::GetPixelsValue()
 {
-	char * output = (char *)malloc(28 /*Pixel Width*/ * 28 /*Pixel Height*/);
+	unsigned char * output = (unsigned char *)malloc(28 /*Pixel Width*/ * 28 /*Pixel Height*/);
 
 	for (int i = 0; i < 28 /*Pixel Width*/ * 28 /*Pixel Height*/; i++)
 		output[i] = (unsigned char)(pixels[i] * (double)256);
@@ -83,11 +82,9 @@ void HandwrittenDigit::Open(char * imageBitmapFile)
 }
 void HandwrittenDigit::Save(char * imageBitmapFile)
 {
-	char digit[28 /*Pixel Width*/ * 28 /*Pixel Height*/];
-	memcpy(digit, GetPixelsValue(), 28 /*Pixel Width*/ * 28 /*Pixel Height*/);
-	
-	char * digitData = (char *)malloc(2352);
-	char * newdigit = (char *)malloc(784);
+	unsigned char * digit = GetPixelsValue();	
+	unsigned char * digitData = (unsigned char *)malloc(2352);
+	unsigned char * newdigit = (unsigned char *)malloc(784);
 
 	for (int i = 0; i < 784; i++)
 		digit[i] = 255 - digit[i];
@@ -97,11 +94,16 @@ void HandwrittenDigit::Save(char * imageBitmapFile)
 			newdigit[j + i * 28] = digit[k + i * 28];
 
 	for (int i = 0, j = 783; i < 784; i++, j--)
+	{
 		digitData[j * 3] = newdigit[i];
+		digitData[j * 3 + 1] = newdigit[i];
+		digitData[j * 3 + 2] = newdigit[i];
+	}
 	
 	Bitmap bmp(28, 28, (unsigned char *)digitData);
 	bmp.Save(imageBitmapFile);
 	
+	free(digit);
 	free(digitData);
 	free(newdigit);
 }
