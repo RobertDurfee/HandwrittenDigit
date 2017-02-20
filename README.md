@@ -49,10 +49,10 @@ char * ReadDigits(string digitsRawFileDirectory)
 	ifstream digitsFile(digitsRawFileDirectory, ios::binary);
 
 	int header[4];
-	char * digits = (char *)malloc(60000 /*Number of images*/ * 28 /*Pixel width*/ * 28 /*Pixel height*/);
-
 	digitsFile.read((char *)header, sizeof(unsigned int) * 4);
-	digitsFile.read(digits, 60000 /*Number of images*/ * 28 /*Pixel width*/ * 28 /*Pixel height*/);
+	
+	char * digits = (char *)malloc(header[1] /*Number of images*/ * 28 /*Pixel width*/ * 28 /*Pixel height*/);
+	digitsFile.read(digits, header[1] /*Number of images*/ * 28 /*Pixel width*/ * 28 /*Pixel height*/);
 
 	return digits;
 }
@@ -62,10 +62,10 @@ char * ReadLabels(string labelsRawFileDirectory)
 	ifstream labelsFile(labelsRawFileDirectory, ios::binary);
 
 	int header[2];
-	char * labels = (char *)malloc(60000 /*Number of images*/);
-
 	labelsFile.read((char *)header, sizeof(unsigned int) * 2);
-	labelsFile.read(labels, 60000 /*Number of images*/);
+	
+	char * labels = (char *)malloc(header[1] /*Number of images*/);
+	labelsFile.read(labels, header[1] /*Number of images*/);
 
 	return labels;
 }
