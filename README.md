@@ -2,7 +2,7 @@
 C++ class for parsing bitmaps and MNIST data files for easy artificial neural network consumption.
 
 ### Disclaimer
-This is not production-worthy code! View this simply as a proof-of-concept.
+This is not production-worthy code! View this simply as a proof-of-concept. Preconditions are implicit. No error checking exists.
 
 ### Initialization
 ```C++
